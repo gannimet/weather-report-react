@@ -9,10 +9,12 @@ function WeatherPage() {
   const [selectedCity, setSelectedCity] = useState<City>();
 
   return <div className='weather-page'>
-    <CitySelector
-      cities={cities}
-      onCitySelected={(city) => setSelectedCity(city)}
-    />
+    <div className="city-selection">
+      <CitySelector
+        cities={cities}
+        onCitySelected={(city) => setSelectedCity(city)}
+      />
+    </div>
 
     <WeatherWidget city={selectedCity} />
   </div>

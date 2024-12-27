@@ -42,9 +42,16 @@ h2 {
         margin: 0;
       }
 
-      .todo-due-date {
-        color: #666;
-        font-size: 12px;
+      .meta-area {
+        display: flex;
+        column-gap: 8px;
+        justify-content: flex-end;
+        align-items: center;
+
+        .todo-due-date {
+          color: #666;
+          font-size: 12px;
+        }
       }
     }
 

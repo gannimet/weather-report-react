@@ -1,0 +1,55 @@
+h2 {
+  font-size: 18px;
+  margin-top: 32px;
+}
+
+.todo-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 10px 10px 25px -8px #ddd;
+
+  &-item {
+    --list-border-radius: 8px;
+    padding: 16px;
+
+    &:first-child {
+      border-top-left-radius: var(--list-border-radius);
+      border-top-right-radius: var(--list-border-radius);
+    }
+
+    &:last-child {
+      border-bottom-left-radius: var(--list-border-radius);
+      border-bottom-right-radius: var(--list-border-radius);
+    }
+
+    &:nth-child(2n) {
+      background-color: #f9f9ff;
+    }
+
+    &:nth-child(2n-1) {
+      background-color: #f2f2ff;
+    }
+
+    .item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .todo-title {
+        margin: 0;
+      }
+
+      .todo-due-date {
+        color: #666;
+        font-size: 12px;
+      }
+    }
+
+    .todo-description {
+      margin: 12px 0 0 0;
+    }
+  }
+}

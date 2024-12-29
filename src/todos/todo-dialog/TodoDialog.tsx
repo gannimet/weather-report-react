@@ -1,43 +1,32 @@
-import { memo, useMemo } from 'react';
-import { Todo } from '../model/data-model';
-import './TodoDialog.scss';
+import { memo, useEffect, useRef } from "react";
+import { Todo } from "../model/data-model";
+import "./TodoDialog.scss";
+import DialogForm from "./dialog-form/DialogForm";
 
 type TodoDialogProps = {
   isOpen: boolean;
-  todo?: Todo;
-  onCancel?(): void;
-  onSave?(): void;
+  onCancel(): void;
+  onSave(todo: Todo): void;
 };
 
-export default memo<TodoDialogProps>(({
-  isOpen,
-  todo,
-  onCancel,
-  onSave,
-}) => {
-  const isEditMode = useMemo(() => !!todo, [todo])
+export default memo<TodoDialogProps>(({ isOpen, onCancel, onSave }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  return <dialog open={isOpen}>
-    <h1>{isEditMode ? 'TODO editieren' : 'TODO hinzufügen'}</h1>
+  useEffect(() => {
+    if (isOpen) {
+      dialogRef.current?.showModal();
+    } else {
+      dialogRef.current?.close();
+    }
+  }, [isOpen]);
 
-    <div className="title-field">
-      <span>Titel:</span>
-      <input name="title" type="text" />
-    </div>
-
-    <div className="description-field">
-      <span>Beschreibung:</span>
-      <textarea name="description" />
-    </div>
-
-    <div className="due-date-field">
-      <span>Fällig am:</span>
-      <input name="due-date" type="date" />
-    </div>
-
-    <div className='button-row'>
-      <button onClick={() => onCancel?.()}>Abbrechen</button>
-      <button onClick={() => onSave?.()}>Speichern</button>
-    </div>
-  </dialog>
-})
+  return (
+    <dialog className="todo-dialog" ref={dialogRef}>
+      <DialogForm
+        key={crypto.randomUUID()}
+        onCancel={onCancel}
+        onSave={onSave}
+      />
+    </dialog>
+  );
+});

@@ -5,15 +5,7 @@ import TodoDialog from "./todo-dialog/TodoDialog";
 import TodoList from "./todo-list/TodoList";
 
 function TodosPage() {
-  const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: "1",
-      title: "Putzen",
-      description: "Alles schön sauber machen",
-      dueDate: new Date("2024-02-23"),
-      isDone: false,
-    },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const onCancel = () => {

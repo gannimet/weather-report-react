@@ -15,7 +15,7 @@ function renderTodoList(
   onDoneClicked: (todo: Todo) => void,
   isDoneList = false
 ) {
-  return (
+  return todos.length > 0 ? (
     <ul className="todo-list">
       {todos.map((todo) => (
         <li className="todo-list-item" key={todo.id}>
@@ -38,6 +38,8 @@ function renderTodoList(
         </li>
       ))}
     </ul>
+  ) : (
+    <div className="empty-list">Keine TODOs vorhanden.</div>
   );
 }
 

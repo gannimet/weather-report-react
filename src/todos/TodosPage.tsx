@@ -33,6 +33,11 @@ function TodosPage() {
     setTodos(todosWithoutRemoved);
   };
 
+  const onDone = (todo: Todo) => {
+    todo.isDone = true;
+    setTodos([...todos]);
+  };
+
   return (
     <>
       <TodoDialog isOpen={isDialogOpen} onCancel={onCancel} onSave={onSave} />
@@ -46,7 +51,11 @@ function TodosPage() {
         </div>
 
         <div className="todo-list-wrapper">
-          <TodoList todos={todos} onDelete={onDelete} />
+          <TodoList
+            todos={todos}
+            onDeleteClicked={onDelete}
+            onDoneClicked={onDone}
+          />
         </div>
       </div>
     </>

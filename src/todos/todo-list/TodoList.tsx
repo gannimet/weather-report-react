@@ -5,10 +5,16 @@ import "./TodoList.scss";
 
 type TodoListProps = {
   todos: Todo[];
-  onDelete(todo: Todo): void;
+  onDeleteClicked(todo: Todo): void;
+  onDoneClicked(todo: Todo): void;
 };
 
-function renderTodoList(todos: Todo[], onDelete: (todo: Todo) => void) {
+function renderTodoList(
+  todos: Todo[],
+  onDeleteClicked: (todo: Todo) => void,
+  onDoneClicked: (todo: Todo) => void,
+  isDoneList = false
+) {
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
@@ -21,7 +27,10 @@ function renderTodoList(todos: Todo[], onDelete: (todo: Todo) => void) {
                 Fällig: {format(todo.dueDate, "dd.MM.yyyy")}
               </span>
 
-              <button onClick={() => onDelete(todo)}>Löschen</button>
+              {!isDoneList && (
+                <button onClick={() => onDoneClicked(todo)}>Erledigt</button>
+              )}
+              <button onClick={() => onDeleteClicked(todo)}>Löschen</button>
             </div>
           </div>
 
@@ -32,30 +41,32 @@ function renderTodoList(todos: Todo[], onDelete: (todo: Todo) => void) {
   );
 }
 
-export default memo<TodoListProps>(({ todos, onDelete }) => {
-  const notDoneTodos = useMemo(() => {
-    return todos
-      .filter((todo) => !todo.isDone)
-      .toSorted((a, b) => {
-        return a.dueDate.getTime() - b.dueDate.getTime();
-      });
-  }, [todos]);
+export default memo<TodoListProps>(
+  ({ todos, onDeleteClicked, onDoneClicked }) => {
+    const notDoneTodos = useMemo(() => {
+      return todos
+        .filter((todo) => !todo.isDone)
+        .toSorted((a, b) => {
+          return a.dueDate.getTime() - b.dueDate.getTime();
+        });
+    }, [todos]);
 
-  const doneTodos = useMemo(() => {
-    return todos
-      .filter((todo) => todo.isDone)
-      .toSorted((a, b) => {
-        return a.dueDate.getTime() - b.dueDate.getTime();
-      });
-  }, [todos]);
+    const doneTodos = useMemo(() => {
+      return todos
+        .filter((todo) => todo.isDone)
+        .toSorted((a, b) => {
+          return a.dueDate.getTime() - b.dueDate.getTime();
+        });
+    }, [todos]);
 
-  return (
-    <>
-      <h2>Zu erledigen:</h2>
-      {renderTodoList(notDoneTodos, onDelete)}
+    return (
+      <>
+        <h2>Zu erledigen:</h2>
+        {renderTodoList(notDoneTodos, onDeleteClicked, onDoneClicked)}
 
-      <h2>Erledigt:</h2>
-      {renderTodoList(doneTodos, onDelete)}
-    </>
-  );
-});
+        <h2>Erledigt:</h2>
+        {renderTodoList(doneTodos, onDeleteClicked, onDoneClicked, true)}
+      </>
+    );
+  }
+);

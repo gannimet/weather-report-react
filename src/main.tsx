@@ -1,12 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.scss'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import WeatherPage from './weather/WeatherPage'
-import TodosPage from './todos/TodosPage'
-import NavBar from './navigation/NavBar'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import "./index.scss";
+import NavBar from "./navigation/NavBar";
+import TodosPage from "./todos/TodosPage";
+import WeatherPage from "./weather/WeatherPage";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <NavBar />
@@ -15,8 +15,9 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="weather" element={<WeatherPage />} />
           <Route path="todo" element={<TodosPage />} />
+          <Route path="*" element={<Navigate to="/weather" />} />
         </Routes>
       </main>
     </BrowserRouter>
-  </StrictMode>,
-)
+  </StrictMode>
+);

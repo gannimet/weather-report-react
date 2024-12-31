@@ -35,7 +35,7 @@ export default memo<DialogFormProps>(({ onCancel, onSave }) => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} method="post">
       <h1 className="header">TODO hinzufügen</h1>
 
       <section className="main-content">

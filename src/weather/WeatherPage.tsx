@@ -1,23 +1,25 @@
-import { memo, useState } from 'react'
-import './WeatherPage.scss'
-import CitySelector from './city-selector/CitySelector'
-import { cities } from './model/data-model'
-import WeatherWidget from './weather-widget/WeatherWidget'
-import { City } from './model/weather-types'
+import { memo, useState } from "react";
+import "./WeatherPage.scss";
+import CitySelector from "./city-selector/CitySelector";
+import { cities } from "./model/data-model";
+import { City } from "./model/weather-types";
+import WeatherWidget from "./weather-widget/WeatherWidget";
 
 function WeatherPage() {
   const [selectedCity, setSelectedCity] = useState<City>();
 
-  return <div className='weather-page'>
-    <div className="city-selection">
-      <CitySelector
-        cities={cities}
-        onCitySelected={(city) => setSelectedCity(city)}
-      />
-    </div>
+  return (
+    <div className="weather-page">
+      <main className="city-selection">
+        <CitySelector
+          cities={cities}
+          onCitySelected={(city) => setSelectedCity(city)}
+        />
+      </main>
 
-    <WeatherWidget city={selectedCity} />
-  </div>
+      <WeatherWidget city={selectedCity} />
+    </div>
+  );
 }
 
-export default memo(WeatherPage)
+export default memo(WeatherPage);

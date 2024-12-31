@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import "./TodosPage.scss";
 import { Todo } from "./model/data-model";
 import TodoDialog from "./todo-dialog/TodoDialog";
@@ -7,6 +7,22 @@ import TodoList from "./todo-list/TodoList";
 function TodosPage() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const notDoneTodos = useMemo(() => {
+    return todos
+      .filter((todo) => !todo.isDone)
+      .toSorted((a, b) => {
+        return a.dueDate.getTime() - b.dueDate.getTime();
+      });
+  }, [todos]);
+
+  const doneTodos = useMemo(() => {
+    return todos
+      .filter((todo) => todo.isDone)
+      .toSorted((a, b) => {
+        return a.dueDate.getTime() - b.dueDate.getTime();
+      });
+  }, [todos]);
 
   const onCancel = () => {
     setIsDialogOpen(false);
@@ -34,7 +50,7 @@ function TodosPage() {
     <>
       <TodoDialog isOpen={isDialogOpen} onCancel={onCancel} onSave={onSave} />
 
-      <div className="todos-page">
+      <main className="todos-page">
         <div className="list-head">
           <span className="count">{todos.length} Todo(s)</span>
           <button onClick={() => setIsDialogOpen(true)}>
@@ -43,13 +59,17 @@ function TodosPage() {
         </div>
 
         <div className="todo-list-wrapper">
+          <h2>Zu erledigen:</h2>
           <TodoList
-            todos={todos}
+            todos={notDoneTodos}
             onDeleteClicked={onDelete}
             onDoneClicked={onDone}
           />
+
+          <h2>Erledigt:</h2>
+          <TodoList todos={doneTodos} onDeleteClicked={onDelete} />
         </div>
-      </div>
+      </main>
     </>
   );
 }
